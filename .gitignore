@@ -1,2 +1,12 @@
+node_modules/
+dist/
+*.local
 .DS_Store
 Thumbs.db
+
+.venv/
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+staticfiles/
