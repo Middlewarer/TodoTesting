@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="Простой и красивый список задач. Планируйте день спокойно и отмечайте сделанное.">
+  <title>Список дел — тихо, по делу</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Список дел, на главную">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>тихо<span class="brand-dot">.</span></span>
+      </a>
+      <div class="topbar-note"><span class="status-dot"></span> Ваш день — в ваших руках</div>
+      <button class="icon-button theme-button" type="button" aria-label="Переключить оформление" title="Переключить оформление"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.6"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div class="date-label"><span class="date-rule"></span><span id="today-date"></span></div>
+      <h1 id="page-title">Всё начинается<br>с <span>одного шага.</span></h1>
+      <p class="intro-copy">Запишите то, что важно. Остальное подождёт.</p>
+    </section>
+
+    <section class="task-board" aria-label="Ваш список дел">
+      <form class="task-form" id="task-form">
+        <label class="sr-only" for="task-input">Новая задача</label>
+        <span class="input-spark" aria-hidden="true">✳</span>
+        <input id="task-input" name="task" type="text" maxlength="120" placeholder="Что хотите успеть?" autocomplete="off" required>
+        <button class="add-button" type="submit"><span>Добавить</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg></button>
+      </form>
+
+      <div class="list-toolbar">
+        <div class="list-heading"><h2>Мои задачи</h2><span class="task-count" id="task-count">0</span></div>
+        <div class="filters" role="group" aria-label="Фильтр задач">
+          <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">Все</button>
+          <button class="filter-button" type="button" data-filter="active" aria-pressed="false">В планах</button>
+          <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">Готово</button>
+        </div>
+      </div>
+
+      <ul class="task-list" id="task-list" aria-live="polite"></ul>
+      <div class="empty-state" id="empty-state">
+        <div class="empty-art" aria-hidden="true"><span class="empty-sun"></span><span class="empty-line line-one"></span><span class="empty-line line-two"></span><span class="empty-line line-three"></span><span class="empty-check">✓</span></div>
+        <p class="empty-title" id="empty-title">Пока здесь свободно</p>
+        <p class="empty-copy" id="empty-copy">Добавьте первую задачу — и начнём.</p>
+      </div>
+      <footer class="list-footer"><span id="remaining-label">На сегодня — чистый лист</span><button class="clear-button" id="clear-completed" type="button" hidden>Удалить выполненные</button></footer>
+    </section>
+
+    <footer class="page-footer"><span>Сделано с вниманием к вашему времени</span><span class="footer-star" aria-hidden="true">✳</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
