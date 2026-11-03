@@ -101,3 +101,10 @@ legend { font-size:11px; font-weight:700; margin-bottom:12px; }
 @media(max-width:1000px) { .workspace { grid-template-columns:180px minmax(0,1fr); gap:32px; } .sidebar { padding:24px 18px; } .overview-number { font-size:86px; } .edition { font-size:8px; } }
 @media(max-width:700px) { .app-shell { padding:0 20px; } .topbar { min-height:78px; justify-content:space-between; gap:16px; } .brand { font-size:30px; } .edition { display:none; } .workspace { grid-template-columns:minmax(0,1fr); gap:0; padding:28px 0 36px; min-height:calc(100dvh - 155px); } .sidebar { display:none; } .intro { padding-top:0; } h1 { font-size:52px; margin-top:18px; } .task-form { gap:8px; padding-left:12px; } .task-form input { font-size:13px; } .add-button { padding:13px 12px; } .add-button svg { display:none; } .list-toolbar { padding-top:24px; } .filters { gap:0; } .filter-button { padding:7px 9px; } .task-item { gap:10px; } .page-footer { flex-wrap:wrap; gap:10px; padding:18px 0; } .page-footer div { gap:18px; } .empty-state { min-height:210px; padding:34px 15px; } }
 @media(prefers-reduced-motion:reduce) { * { transition:none!important; } }
+
+.account-button { padding:10px; border:0; color:var(--ink); background:transparent; font-size:12px; }
+button:disabled { opacity:.5; cursor:wait; }
+.error-message { padding:12px; border:1px solid #b45337; color:var(--ink); background:var(--surface); font-size:12px; line-height:1.6; }
+.auth-form { display:grid; gap:14px; }
+.auth-form label { display:grid; gap:7px; font-size:12px; }
+.auth-form input { width:100%; padding:12px; border:1px solid var(--line); border-radius:5px; background:var(--bg); color:var(--ink); }
