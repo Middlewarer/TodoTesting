@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: tiho-django-react
+    runtime: docker
+    plan: free
+    healthCheckPath: /health/
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        sync: false
