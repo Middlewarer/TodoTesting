@@ -87,6 +87,9 @@
     }
 
     count.textContent = String(tasks.length);
+    document.querySelector("#overview-active").textContent = String(remaining).padStart(2, "0");
+    document.querySelector("#progress-fill").style.width = `${tasks.length ? completed / tasks.length * 100 : 0}%`;
+    document.querySelector("#progress-caption").textContent = tasks.length ? `${completed} из ${tasks.length} выполнено` : "Начните с одной задачи";
     empty.hidden = visibleTasks.length > 0;
     list.hidden = visibleTasks.length === 0;
     clearCompleted.hidden = completed === 0;
@@ -148,11 +151,44 @@
     showToast("Выполненные задачи удалены");
   });
 
-  document.querySelector(".theme-button").addEventListener("click", () => {
-    document.body.classList.toggle("dark-theme");
-    try { localStorage.setItem("tiho-theme-v1", document.body.classList.contains("dark-theme") ? "dark" : "light"); } catch { /* Theme still works for this session. */ }
-  });
-  try { if (localStorage.getItem("tiho-theme-v1") === "dark") document.body.classList.add("dark-theme"); } catch { /* Use the default light theme. */ }
+  const defaults = { palette: "chalk", typeface: "sans", density: "roomy" };
+  const options = { palette: ["chalk", "ink", "sand"], typeface: ["sans", "serif", "mono"], density: ["roomy", "compact"] };
+  let design = { ...defaults };
+  try {
+    const saved = JSON.parse(localStorage.getItem("tiho-design-v1") || "null");
+    if (saved && typeof saved === "object") {
+      for (const key of Object.keys(defaults)) if (options[key].includes(saved[key])) design[key] = saved[key];
+    } else if (localStorage.getItem("tiho-theme-v1") === "dark") design.palette = "ink";
+  } catch { /* Default design remains usable when storage is unavailable. */ }
+  function applyDesign() {
+    for (const key of Object.keys(defaults)) {
+      document.body.dataset[key] = design[key];
+      document.querySelectorAll(`[data-${key}]`).forEach(button => {
+        if (button.tagName === "BUTTON") button.setAttribute("aria-pressed", String(button.dataset[key] === design[key]));
+      });
+    }
+  }
+  function persistDesign() {
+    applyDesign();
+    try { localStorage.setItem("tiho-design-v1", JSON.stringify(design)); }
+    catch { showToast("Оформление изменено, но не удалось сохранить выбор"); }
+  }
+  for (const key of Object.keys(defaults)) document.querySelectorAll(`button[data-${key}]`).forEach(button => button.addEventListener("click", () => {
+    design[key] = button.dataset[key];
+    persistDesign();
+  }));
+  document.querySelector("#reset-design").addEventListener("click", () => { design = { ...defaults }; persistDesign(); });
+  for (const name of ["settings", "about"]) {
+    const dialog = document.querySelector(`#${name}-dialog`);
+    document.querySelector(`#${name}-open`).addEventListener("click", () => dialog.showModal());
+    dialog.addEventListener("click", event => {
+      if (event.target === dialog) {
+        const box = dialog.getBoundingClientRect();
+        if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
+      }
+    });
+  }
+  applyDesign();
 
   const today = new Intl.DateTimeFormat("ru-RU", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
   document.querySelector("#today-date").textContent = today;
