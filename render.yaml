@@ -2,7 +2,9 @@ services:
   - type: web
     name: tiho-django-react
     runtime: docker
+    branch: feat/django-react
     plan: free
+    region: frankfurt
     healthCheckPath: /health/
     envVars:
       - key: DJANGO_SECRET_KEY
@@ -10,4 +12,14 @@ services:
       - key: DJANGO_DEBUG
         value: "false"
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: tiho-postgres
+          property: connectionString
+
+databases:
+  - name: tiho-postgres
+    plan: free
+    region: frankfurt
+    databaseName: tiho
+    user: tiho
+    ipAllowList: []
